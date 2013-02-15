@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Guchitter</string>
+    <string name="invite_message">君の愚痴を聞かせておくれよ。</string>
+    <string name="menu_settings">Settings</string>
+    <string name="save_button">Save</string><string name="ever_button">E</string>
+    <string name="help_message">さあ、君の愚痴を記録しよう。</string>
+    <string name="alert_Message">何も記入されていないよ？</string>
+
+</resources>
