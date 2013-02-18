@@ -12,21 +12,15 @@
         android:layout_centerVertical="true"
         android:text="@string/info_message" />
 
-    <Button
-        android:id="@+id/on_button"
+    <ToggleButton
+        android:id="@+id/toggleButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
         android:layout_below="@+id/textView1"
-        android:layout_marginTop="28dp"
-        android:text="@string/on_message" />
-
-    <Button
-        android:id="@+id/off_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/on_button"
-        android:layout_toRightOf="@+id/on_button"
-        android:text="@string/off_message" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/switch_message"
+        android:textOn="@string/on_message"
+        android:textOff="@string/off_message" />
 
 </RelativeLayout>

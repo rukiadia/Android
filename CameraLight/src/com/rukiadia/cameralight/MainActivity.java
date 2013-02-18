@@ -3,56 +3,68 @@ package com.rukiadia.cameralight;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Toast;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ToggleButton;
 import android.hardware.Camera;
 
-public class MainActivity extends Activity implements OnClickListener{
+public class MainActivity extends Activity implements OnCheckedChangeListener{
 	
-	Camera c = Camera.open();
+	ToggleButton tb1;
+	Camera camera;
+	Camera.Parameters cp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		Camera.Parameters cp = c.getParameters();
-		cp.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-		c.setParameters(cp);
-		c.startPreview();
+		tb1 = (ToggleButton)findViewById(R.id.toggleButton1);
+		tb1.setOnCheckedChangeListener(this);
 		
-		Button on_button = (Button)findViewById(R.id.on_button);
-		Button off_button = (Button)findViewById(R.id.off_button);
-		on_button.setOnClickListener(this);
-		off_button.setOnClickListener(this);
-		
-	}
-	
-	public void onClick(View v){
-		switch(v.getId()){
-			case R.id.on_button:
-				Toast.makeText(this, "ON", Toast.LENGTH_SHORT).show();
-				break;
-			case R.id.off_button:
-				Toast.makeText(this, "OFF", Toast.LENGTH_SHORT).show();
-				break;
-		}
 	}
 	
 	@Override
 	public void onStop(){
 		super.onStop();
 		//制御しているカメラデバイスのインスタンス
-		c.release();
+		//アプリが終了した時も消灯
+		camera.release();
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		finish();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		//ToggleButtonの処理
+		if (buttonView.getId() == R.id.toggleButton1) {
+			if(isChecked == true) {
+				//ライトの点灯
+				camera = Camera.open();
+				cp = camera.getParameters();
+				cp.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+				camera.setParameters(cp);
+				camera.startPreview();
+				//点灯通知
+				Toast.makeText(this, "SwitchON", Toast.LENGTH_SHORT).show();
+			} else if(isChecked == false) {
+				//ライトの消灯
+				camera.release();
+				//消灯通知
+				Toast.makeText(this, "SwitchON", Toast.LENGTH_SHORT).show();
+			}
+		}
 	}
 
 }
