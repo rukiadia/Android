@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ToggleButton;
 import android.hardware.Camera;
@@ -14,6 +13,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener{
 	ToggleButton tb1;
 	Camera camera;
 	Camera.Parameters cp;
+	CompoundButton buttonView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,12 @@ public class MainActivity extends Activity implements OnCheckedChangeListener{
 	}
 	
 	@Override
+	public void onPause(){
+		super.onPause();
+		finish();
+	}
+	
+	@Override
 	public void onStop(){
 		super.onStop();
 		//制御しているカメラデバイスのインスタンス
@@ -34,16 +40,11 @@ public class MainActivity extends Activity implements OnCheckedChangeListener{
 	}
 	
 	@Override
-	public void onPause(){
-		super.onPause();
-		finish();
-	}
-
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
+	
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -56,13 +57,9 @@ public class MainActivity extends Activity implements OnCheckedChangeListener{
 				cp.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 				camera.setParameters(cp);
 				camera.startPreview();
-				//点灯通知
-				Toast.makeText(this, "SwitchON", Toast.LENGTH_SHORT).show();
 			} else if(isChecked == false) {
 				//ライトの消灯
 				camera.release();
-				//消灯通知
-				Toast.makeText(this, "SwitchON", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
