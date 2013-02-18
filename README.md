@@ -1,4 +1,4 @@
 Android
 =======
 
-MyApplication
+Android Application SampleSourceCode
