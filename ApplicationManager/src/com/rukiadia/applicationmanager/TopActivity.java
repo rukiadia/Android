@@ -2,7 +2,7 @@
  * 端末にインストールされている全アプリ情報を取得し、テキストファイルに保存するアプリ
  */
 
-package com.rukiadia.applicationinfo;
+package com.rukiadia.applicationmanager;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -37,14 +37,26 @@ public class TopActivity extends Activity {
 		
 		//アプリ起動と同時にテキストファイル出力
 		//テキストファイルのパス指定(SDカード内)
-		String filePath = Environment.getExternalStorageDirectory() + "/appinfo.csv";
+		String filePath = Environment.getExternalStorageDirectory() + "/Download/appinfo.csv";
 		File fileName = new File(filePath);
 		//過去に出力したファイルが有る場合は消去
+		Log.v("PackageManager", "delete an old CSVfile");
 		fileName.delete();
 		fileName.getParentFile().mkdir();
 		
-		FileOutputStream fos;
-		OutputStreamWriter osw;
+		//アプリ情報のヘッダを記載
+		try{
+			FileOutputStream fos = new FileOutputStream(fileName, true);
+			OutputStreamWriter osw = new OutputStreamWriter(fos, "Shift_JIS");
+			BufferedWriter bw = new BufferedWriter(osw);
+			bw.write("AppName," + "PackageName," + "VersionName," + "VersionCode");
+			bw.newLine();
+			bw.close();
+		} catch(IOException e) {
+			Log.e("PackageManager", "failed to save headerdatas.");
+			e.printStackTrace();
+		}
+		
 		
 		PackageManager manager = getPackageManager();
 		List<ApplicationInfo> infos = manager.getInstalledApplications(PackageManager.GET_META_DATA);
@@ -57,10 +69,10 @@ public class TopActivity extends Activity {
 			//パッケージ名、VersionCode、VersionNameを取得
 			try{
 				PackageInfo packageInfo = manager.getPackageInfo(info.packageName, PackageManager.GET_META_DATA);
-				Log.i("PackageManager", "AppName: " + appName +", packageName: " + info.packageName + ", versionName: " + packageInfo.versionName + ", versionCode: " + packageInfo.versionCode);
 				packageName = info.packageName;
 				versionName = packageInfo.versionName;
 				versionCode = packageInfo.versionCode;
+				Log.i("PackageManager", "AppName: " + appName +", packageName: " + info.packageName + ", versionName: " + packageInfo.versionName + ", versionCode: " + packageInfo.versionCode);
 			} catch(NameNotFoundException e) {
 				Log.e("PackageManager", "failed to get applicationdatas.");
 				e.printStackTrace();
@@ -68,23 +80,25 @@ public class TopActivity extends Activity {
 			
 			//アプリ情報をテキストファイルへ書き込み、SDカードに保存
 			try{
-				fos = new FileOutputStream(fileName, true);
-				osw = new OutputStreamWriter(fos, "Shift_JIS");
-				BufferedWriter bw = new BufferedWriter(osw);
+				FileOutputStream fos2 = new FileOutputStream(fileName, true);
+				OutputStreamWriter osw2 = new OutputStreamWriter(fos2, "Shift_JIS");
+				BufferedWriter bw2 = new BufferedWriter(osw2);
 				/*
 				bw.write("AppName: " + appName + ", packageName: " +
 				packageName + ", versionName: " + versionName + ", versionCode: " + versionCode);
 				*/
-				
-				bw.write("" + appName + "" + packageName  + "" + versionName + "" + versionCode);
-				bw.newLine();
-				bw.flush();
-				bw.close();
+				//ダブルクォーテーションで囲み、CSVファイル形式で保存
+				bw2.write("\"" + appName + "\"," +
+				"\"" + packageName + "\"," +
+				"\"" + versionName + "\"," +
+				"\"" + versionCode + "\"");
+				bw2.newLine();
+				bw2.flush();
+				bw2.close();
 			} catch(IOException e) {
 				Log.e("PackageManager", "failed to write dataset for text file.");
 				e.printStackTrace();
 			}
-			
 		}
 		Toast.makeText(this, "出力しました", Toast.LENGTH_SHORT).show();
 	}
