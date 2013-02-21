@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ApplicationManager</string>
-    <string name="hello_world">アプリ情報がテキストファイルに書きだされます。</string>
+    <string name="app_name">ApplnfoGetter</string>
     <string name="menu_settings">Settings</string>
+    <string name="output_button">output</string>
+    <string name="name_hint">appinfo.csv</string>
 
 </resources>
