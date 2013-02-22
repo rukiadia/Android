@@ -47,7 +47,10 @@ public class MainActivity extends Activity implements OnCheckedChangeListener{
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		camera.release();
+		//カメラオブジェクトを掴んでいない時は処理を行わない
+		if (camera != null){
+			camera.release();
+		}
 	}
 
 	@Override
