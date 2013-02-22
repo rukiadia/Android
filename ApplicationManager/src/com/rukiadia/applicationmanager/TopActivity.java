@@ -85,6 +85,14 @@ public class TopActivity extends Activity implements OnClickListener {
 	
 	//アプリ情報保存メソッド
 	public void saveInfoDatas(String fileURL){
+		
+		FileOutputStream fos1;
+		FileOutputStream fos2;
+		OutputStreamWriter osw1;
+		OutputStreamWriter osw2;
+		BufferedWriter bw1 = null;
+		BufferedWriter bw2 = null;
+		
 		//テキストファイルのパス指定(SDカード内)
 		String filePath = fileURL + "/" + model + "_appinfo.csv";
 		Log.d(ApplicationName, filePath);
@@ -96,15 +104,20 @@ public class TopActivity extends Activity implements OnClickListener {
 		
 		//アプリ情報のヘッダを記載
 		try{
-			FileOutputStream fos = new FileOutputStream(fileName, true);
-			OutputStreamWriter osw = new OutputStreamWriter(fos, "Shift_JIS");
-			BufferedWriter bw = new BufferedWriter(osw);
-			bw.write("AppName," + "PackageName," + "VersionName," + "VersionCode");
-			bw.newLine();
-			bw.close();
+			fos1 = new FileOutputStream(fileName, true);
+			osw1 = new OutputStreamWriter(fos1, "Shift_JIS");
+			bw1 = new BufferedWriter(osw1);
+			bw1.write("AppName," + "PackageName," + "VersionName," + "VersionCode");
+			bw1.newLine();
 		} catch(IOException e) {
 			Log.e(ApplicationName, "failed to save headerdatas.");
 			e.printStackTrace();
+		} finally {
+			try {
+				bw1.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		PackageManager manager = getPackageManager();
@@ -129,9 +142,9 @@ public class TopActivity extends Activity implements OnClickListener {
 			
 			//アプリ情報をテキストファイルへ出力し、保存
 			try{
-				FileOutputStream fos2 = new FileOutputStream(fileName, true);
-				OutputStreamWriter osw2 = new OutputStreamWriter(fos2, "Shift_JIS");
-				BufferedWriter bw2 = new BufferedWriter(osw2);
+				fos2 = new FileOutputStream(fileName, true);
+				osw2 = new OutputStreamWriter(fos2, "Shift_JIS");
+				bw2 = new BufferedWriter(osw2);
 				//ダブルクォーテーションで囲む
 				bw2.write("\"" + appName + "\"," +
 				"\"" + packageName + "\"," +
@@ -139,10 +152,15 @@ public class TopActivity extends Activity implements OnClickListener {
 				"\"" + versionCode + "\"");
 				bw2.newLine();
 				bw2.flush();
-				bw2.close();
 			} catch(IOException e) {
 				Log.e(ApplicationName, "failed to write dataset for text file.");
 				e.printStackTrace();
+			} finally {
+				try {
+					bw2.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		Toast.makeText(this, "complete to output", Toast.LENGTH_SHORT).show();
