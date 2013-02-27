@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_night"
     tools:context=".MainActivity" >
 
     <TextView
@@ -10,6 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:textSize="20sp"
+        android:textColor="#696969"
         android:text="@string/info_message" />
 
     <ToggleButton
@@ -19,8 +22,10 @@
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="@string/switch_message"
         android:textOn="@string/on_message"
-        android:textOff="@string/off_message" />
+        android:textOff="@string/off_message"
+        android:textColor="#ffefd5"
+        android:background="@drawable/toggle_button" />
+
 
 </RelativeLayout>
