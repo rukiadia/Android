@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ToggleButton;
 import android.hardware.Camera;
@@ -32,6 +31,10 @@ public class MainActivity extends Activity implements OnCheckedChangeListener{
 	private ToggleButton tb1;
 	private Camera camera;
 	private Camera.Parameters cp;
+	
+	//ダイアログ情報
+	private String title;
+	private String text;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +111,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener{
 		
 		Notification.Builder builder = new Notification.Builder(this);
 		//アイコン
-		builder.setSmallIcon(R.drawable.lightning);
+		builder.setSmallIcon(R.drawable.notification_icon);
 		//ステータスバーに表示されるタイトル
 		builder.setTicker("light up!");
 		//ノーティフィケーションが発行されるタイミング
@@ -142,7 +145,7 @@ public class MainActivity extends Activity implements OnCheckedChangeListener{
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		Toast.makeText(this, "Option", Toast.LENGTH_SHORT).show();
+		new InfoDialog(MainActivity.this, title, text).show();
 		return super.onOptionsItemSelected(item);
 		
 	}

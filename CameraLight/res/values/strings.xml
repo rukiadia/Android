@@ -2,9 +2,15 @@
 <resources>
 
     <string name="app_name">CameraLight</string>
-    <string name="menu_about">INFO</string>
+    <string name="menu_about">GUIDE</string>
     <string name="info_message">When you press the switch,\n the camera\'s light shines</string>
     <string name="on_message">ON</string>
     <string name="off_message">OFF</string>
+    <string name="dialog_button">OK</string>
+    <string name="dialog_title">ApplicationGuides</string>
+    <string name="dialog_text">This app has a function to brighten the surroundings.\n\n
+        But, be careful.\n\n
+        If you wish turn off the light of the camera, please turn off the switch button, or terminate this app.\n
+        Please note that this light will not disappear only to sleep a terminal.</string>
 
 </resources>

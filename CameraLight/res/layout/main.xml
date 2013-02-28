@@ -27,5 +27,4 @@
         android:textColor="#ffefd5"
         android:background="@drawable/toggle_button" />
 
-
 </RelativeLayout>
